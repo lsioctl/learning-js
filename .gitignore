@@ -1,0 +1,7 @@
+### ide and editors
+*.swp
+.idea
+.vscode
+
+### nodes
+*/node_modules/
