@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+cities = [];
+
+// I feel uncomfy here
+// as a promise will alter a global variable
+// only when data is ready
+// can't find better way for now
+// as others are blocking until promise is resolved
+fetch(endpoint)
+  .then(blob => blob.json())
+  // without spread operator, cities is an array like
+  // [[], dataArray ]
+  .then(data => cities.push(...data)); 
+
+// this will show empty array until promises
+// a resolved
+//console.log(cities);
+
+function findCity(se) {
+  const rgx = new RegExp(se, 'gi');
+  return cities.filter(ele => ele.city.match(rgx) || ele.state.match(rgx));
+}
+
+function displayHint() {
+  const disp = document.querySelector('.suggestions');
+  // when addEventListener is called, this is the element on
+  // which it is attached
+  const suggestion = findCity(this.value);
+  if (suggestion.length > 0) {
+    // the only way I found to paliate the fact that cities may not
+    // be yet loaded
+    disp.innerHTML = '';
+    suggestion.forEach(function displayHintInPlace(ele) {
+      disp.innerHTML += `<li>${ele.city}, ${ele.state} </li>`;
+    });
+  } else {
+      disp.innerHTML = `<li>Filter for a city</li>
+                        <li>or a state</li>`;
+  }
+}
+
+function displayHintFaster() {
+  // according to this site and jsperf
+  // map seems to be way faster than forEach,
+  // let's try
+  // and it is indeed !
+  const disp = document.querySelector('.suggestions');
+  // when addEventListener is called, this is the element on
+  // which it is attached
+  const suggestion = findCity(this.value);
+  if (suggestion.length > 0) {
+    // the only way I found to paliate the fact that cities may not
+    // be yet loaded
+    const html = suggestion.map(ele => {
+      return `<li>${ele.city}, ${ele.state} </li>`
+    }).join('');
+    disp.innerHTML = html;
+  } else {
+      disp.innerHTML = `<li>Filter for a city</li>
+                        <li>or a state</li>`;
+  }
+}
+
+// this would work only when cities are available
+//displayHint('new');
+
+const search = document.querySelector('.search');
+
+search.addEventListener('keyup', displayHintFaster);
+search.addEventListener('change', displayHintFaster);
+
+
+</script>
+</body>
+</html>
