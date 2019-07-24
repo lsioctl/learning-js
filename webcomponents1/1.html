@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>First Web Component</title>
+        <style>
+            h1 {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <todo-container></todo-container>
+        <script src="app.js"></script>
+        <!-- we can't do this with file uri
+            we can only import from module file
+            if not we have 'import declarations may only appear at top level of a module'
+            and module are fetched with CORS, incompatible with file uri
+            erro: 'Reason: CORS request not http'
+        <script type="module" src="./to-do-item.js"></script>
+        -->
+        <script src="todo-container.js"></script>
+        <script src="todo-item.js"></script>
+    </body>
