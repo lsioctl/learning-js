@@ -38,12 +38,18 @@ class TodoItem extends HTMLElement {
         this.$text = this._shadowRoot.querySelector('label');
     }
 
+    connectedCallback() {
+        // invoked when the custom element is first connected to
+        // the document DOM
+        console.log(`${this.localName} connected`);
+    }
+
     _renderTodoItem() {
         this.$item.innerHTML = this.$text;
     }
 
     set item(value) {
-        this.$text = value;
+        this.$text = value.text;
         this._renderTodoItem(); 
     }
 }

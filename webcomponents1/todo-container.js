@@ -53,14 +53,30 @@ class TodoContainer extends HTMLElement {
         this._todos = [];
     }
 
+    connectedCallback() {
+        // invoked when the custom element is first connected to
+        // the document DOM
+        console.log(`${this.localName} connected`);
+    }
+
     _renderTodoList() {
         this.$todoList.innerHTML = '';
         this._todos.forEach((todo, checked) => {
             const todoItem = document.createElement('todo-item');
-            todoItem.item = todo.text;
+            todoItem.item = todo;
             this.$todoList.appendChild(todoItem);
         });
+    }
 
+    _renderAddedTodo() {
+        // with this we only update todo item and not re-render all
+        // of them
+        // Not satisfied of the way I get the last todo
+        // because we have this information in _addTodo before
+        // pushing in _todos
+        const todoItem = document.createElement('todo-item');
+        todoItem.item = this._todos.slice(-1)[0];
+        this.$todoList.appendChild(todoItem);
     }
 
     _addTodo() {
@@ -70,8 +86,8 @@ class TodoContainer extends HTMLElement {
         }
         // in the way it as been called
         // 'this' is not the target element but the object
-        this._todos.push({'text': this.$input.value, 'checked': false});
-        this._renderTodoList();
+        this._todos.push({'text': this.$input.value, 'index': this._todos.length + 1});
+        this._renderAddedTodo();
         this.$input.value = '';
     }
 
