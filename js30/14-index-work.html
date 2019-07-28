@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // start with strings, numbers and booleans
+
+    // strings is a primitive datatype, so immutable
+    // it a copy 'by value', meens a new reference to
+    // another memory area is created, and the value
+    // of the initial string is affected to this reference
+    let s1 = 'Hey !';
+
+    let s2 = s1;
+
+    s2 = s1 + ' How are you ?';
+
+    console.log(s1);
+    console.log(s2);
+
+    // this behavior is the same for all primitive datatype
+    // all immutable in Javascript:
+    // String, Number, Boolean, Undefined
+    // Null, BigInt, Symbol (new in ES6)
+
+
+    // Let's say we have an array
+    // Array are Objects, and all Objects are mutable
+    // when copying Objects, it is a copy by reference
+    // meen the two variable point to the same memory area
+    // when we log the Array we see the prototypal chain
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    // and we want to make a copy of it.
+    let players2 = players;
+
+    // You might think we can just do something like this:
+    //players2.push('ooooh noooo');
+
+    // however what happens when we update that array?
+
+    // now here is the problem!
+
+    // oh no - we have edited the original array too!
+
+    // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+
+    // So, how do we fix this? We take a copy instead!
+
+    // one way
+    // I like this one
+    players2 = Array.from(players);
+    // take care, Array.of will make [players]
+    players2.push('ooooh noooo');
+    console.log(players);
+    console.log(players2);
+
+    // or create a new array and concat the old one in
+
+    // or use the new ES6 Spread
+    // I like this one also
+    players2 = [...players];
+    players2.push('ooooh noooo');
+    console.log(players);
+    console.log(players2);
+
+    // now when we update it, the original one isn't changed
+
+    // The same thing goes for objects, let's say we have a person object
+
+    // with Objects
+    const person = {
+      name: 'Wes Bos',
+      age: 80
+    };
+
+    // and think we make a copy:
+    //const bob = person;
+
+    //person.name = 'Bob';
+
+    //console.log(person);
+
+    // how do we take a copy instead?
+    // this is available in ES6
+    const bob = Object.assign({}, person);
+    bob.name = 'Bob';
+    console.log(person);
+    console.log(bob);
+
+    // We will hopefully soon see the object ...spread
+    // This would be nice: 
+    // bob = {...person};
+
+    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+
+    // let's create an object with nested objects
+    const awe = {
+      name: 'Awe',
+      age: 30,
+      hobbies: {
+        sport: 'surfing',
+        art: 'guitar'
+      }
+    }
+
+    //const bill = Object.assign({}, awe);
+
+    //bill.hobbies.sport = 'IT';
+
+    // oh noooo, awe is less awesome now, his sport is IT !!!
+    //console.log(awe);
+
+    // I have to check why this "Poor man's deep copy"
+    // is not recommended. Maybe performances issues ? To check
+    const bill = JSON.parse(JSON.stringify(awe));
+
+    bill.sport = 'IT';
+
+    console.log(bill);
+
+    console.log(awe);
+    
+
+
+  </script>
+
+</body>
+</html>
