@@ -13,7 +13,7 @@ function validSolution(board){
         for (let l=0; l < 9; l += 3) {
             for(let i=k; i < k+3; i++) {
                 for (let j=l; j < l+3; j++) {
-                    if (board[i][j] == 0 || board[j][i] == 0) {
+                    if (board[i][j] == 0) {
                         return false;
                     }
                     sum += board[i][j];
@@ -50,7 +50,7 @@ console.log(validSolution(
     [2, 8, 7, 4, 1, 9, 6, 3, 5],
     [3, 4, 5, 2, 8, 6, 1, 7, 9]]));
 
-/*console.log(validSolution([
+console.log(validSolution([
         [5, 3, 4, 6, 7, 8, 9, 1, 2], 
         [6, 7, 2, 1, 9, 0, 3, 4, 8],
         [1, 0, 0, 3, 4, 2, 5, 6, 0],
@@ -72,4 +72,29 @@ console.log(validSolution([
   [ 7, 8, 9, 1, 2, 3, 4, 5, 6 ],
   [ 8, 9, 7, 2, 3, 1, 5, 6, 4 ],
   [ 9, 7, 8, 3, 1, 2, 6, 4, 5 ]
-]));*/
+]));
+
+/**
+ * 
+ * Interesting solution:
+ * 
+ * function equals45(n){
+  return n == 45;
+}
+
+function validSolution(board){
+  var sumh = [0,0,0,0,0,0,0,0,0];
+  var sumv = [0,0,0,0,0,0,0,0,0];
+  osums = [[0,0,0],[0,0,0],[0,0,0]];
+  for (var i=0;i<9;i++){
+    for (var j=0;j<9;j++){
+      sumh[i] += board[i][j];
+      sumv[j] += board[i][j];
+      osums[Math.floor(i/3)][Math.floor(j/3)] += board[i][j];
+    }
+  }
+  for (var i=0;i<3;i++) if (!osums[i].every(equals45)) return false;
+  return (sumh.every(equals45) && sumv.every(equals45));
+}
+ * 
+ */
