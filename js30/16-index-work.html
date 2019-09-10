@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');
+
+  const editable = hero.querySelector('h1');
+
+  function moveShadow(e) {
+    // we could also use destructuring assignement like
+    // const { offsetHeight: height, offsetWidth: width} = hero;
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+    // same thing here
+    // let { offsetX: x, offsetY: y} = e
+    let x = e.offsetX;
+    let y = e.offsetY;
+    // maximum area where we let the shadow move
+    // let say 50 pixels
+    const area = 50;
+ 
+    // child element could trigger the event also
+    // this is the element on which we added the event listener
+    // target could be hero or editable
+    if (this != e.target) {
+      x += e.target.offsetLeft;
+      y += e.target.offsetTop;
+    }
+
+    // I want the mouse to act as a light so
+    // the shadow moves in opposite direction
+    xArea = -((x / width * area) - (area / 2)); 
+    yArea = -((y / height * area) - (area / 2));
+
+    editable.style.textShadow = `${xArea}px ${yArea}px blue`;
+
+    // we could also add multiple shadows, by separating with ,
+    // like:
+    // editable.style.textShadow = `
+    //   ${xArea}px ${yArea}px blue,
+    //   ${xArea}px ${-1 * yArea}px rgba smthing, ...
+    `;
+
+  }
+
+  hero.addEventListener('mousemove', moveShadow);
+</script>
+</body>
+</html>
