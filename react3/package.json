@@ -1,0 +1,21 @@
+{
+  "name": "react3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browser-sync start --server --files \"*.css, *.html, *.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "eslint": "^6.5.1"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-standalone": "^6.26.0",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  }
+}

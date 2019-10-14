@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trying to think in react !</title>
+  <!-- link rel="stylesheet" href="style.css" -->
+</head>
+<body>
+
+  <div id="root">
+  </div>
+
+  
+  <!-- by default scripts are loaded synchronously those thos
+  dependencies must be before index.js, it could also be in the head -->
+  <script src="node_modules/react/umd/react.development.js"></script>
+  <script src="node_modules/react-dom/umd/react-dom.development.js"></script>
+  <script src="node_modules/babel-standalone/babel.js"></script>
+
+  <!-- babel is needed for JSX
+  this script must be below div id root, because it will modify it
+  NOTE: maybe we could play with document on load but it seems messy
+  anyway the target will be with a proper bundler -->
+  <script type="text/babel" src="index.js"></script>
+
+</body>
+</html>
