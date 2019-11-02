@@ -6,18 +6,12 @@ const fs = require('fs');
 const dbfile = './data.txt';
 const msgStream = fs.createWriteStream(dbfile, {'flags': 'a'});
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.use('/jquery', express.static('./node_modules/jquery'));
-app.use('/scripts', express.static('./scripts'));
-
 io.on('connection', function(socket){
   socket.broadcast.emit('new connection');
   socket.on('chat message', function(msg){
     let daten = Date.now();
     let nickname = socket.nickname;
+    console.log(socket.nickname + msg)
     socket.broadcast.emit('chat message', msg, nickname);
     // we use object litterals from ES6
     let data = {
@@ -36,6 +30,6 @@ io.on('connection', function(socket){
 });
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(5000, function(){
+  console.log('listening on *:5000');
 });
