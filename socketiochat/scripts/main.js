@@ -1,6 +1,6 @@
 const socket = io.connect('http://localhost:5000');
 const nickname = 'Zelda' + Math.random();
-socket.emit('send-nickname', nickname);
+socket.emit('client-send-nickname', nickname);
 
 const messages = document.getElementById('messages');
 const inputMessage = document.getElementById('m');
@@ -38,17 +38,17 @@ function handleInputMessage(e) {
   // prevent the form submit to reload the page
   e.preventDefault();
   const msg = inputMessage.value;
-  socket.emit('chat message', msg);
+  socket.emit('client-chat-message', msg);
   printMessage(nickname, msg);
   this.reset();
 }
 
 function sendStoppedTyping() {
-  socket.emit('user stopped typing');
+  socket.emit('client-user-stopped-typing');
 }
 
 function sendTyping() {
-  socket.emit('user typing');
+  socket.emit('client-user-typing');
 }
 
 /**
@@ -79,19 +79,19 @@ function handleUserTyping() {
   typingTimer = setTimeout(handleUserStoppedTyping, 1000); 
 }
 
-socket.on('new connection', function(){
+socket.on('server-new-connection', function(){
   printInfo('A new user is connected');
 });
 
-socket.on('chat message', (msg, nickname) => {
+socket.on('server-chat-message', (msg, nickname) => {
   printMessage(nickname, msg);
 });
 
-socket.on('user joined', function(nickname) {
+socket.on('server-user-joined', function(nickname) {
   printInfo(nickname + ' has joined the conversation');
 });
 
-socket.on('connected users', function(connectedUsersArray) {
+socket.on('server-connected-users', function(connectedUsersArray) {
   initUserStatus(connectedUsersArray);
 })
 
