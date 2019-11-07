@@ -49,11 +49,14 @@ form button {
     flex-direction: column;
 }
 @media all and (max-width: 800px) {
+    body {
+        flex-direction: column;
+    }
     .aside {
         order: 1;
     }
     .main  { 
-        size: 100%;
+        width: 100%;
         order: 2; 
     }
   }

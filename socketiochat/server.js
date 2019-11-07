@@ -38,9 +38,11 @@ io.on('connection', function(socket){
     socket.emit('server-connected-users', Array.from(connectedUsers));
   });
   socket.on('client-user-typing', function() {
+    socket.broadcast.emit('server-user-typing', socket.nickname);
     console.log(socket.nickname + ' is typing');
   })
   socket.on('client-user-stopped-typing', function() {
+    socket.broadcast.emit('server-user-stopped-typing', socket.nickname);
     console.log(socket.nickname + ' stopped typing');
   })
 });

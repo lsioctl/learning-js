@@ -23,9 +23,18 @@ function initUserStatus(connectedUsersArray) {
   const connectedUsersMap = new Map(connectedUsersArray);
   connectedUsersMap.forEach((value, key) => {
     const userStatusItem = document.createElement('div');
+    // we use data attribute to be able to retrieve and update
+    // only the nickname status
+    // TODO: avoid CSS/HTML/JS injections
+    userStatusItem.setAttribute('data-nickname', key);
     userStatusItem.innerText = `${key}: ${value}`;
     userStatus.appendChild(userStatusItem);
   });
+}
+
+function updateUserStatus(nickname, status) {
+  const userElement = userStatus.querySelector(`[data-nickname="${nickname}"]`);
+  userElement.innerText = `${nickname}: ${status}`;
 }
 
 /**
@@ -93,7 +102,17 @@ socket.on('server-user-joined', function(nickname) {
 
 socket.on('server-connected-users', function(connectedUsersArray) {
   initUserStatus(connectedUsersArray);
-})
+});
+
+socket.on('server-user-typing', function(nickname) {
+  updateUserStatus(nickname, 'is typing');
+});
+
+socket.on('server-user-stopped-typing', function(nickname) {
+  updateUserStatus(nickname, 'online');
+});
+
+
 
 messageForm.addEventListener('submit', handleInputMessage);
 
