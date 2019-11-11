@@ -1,6 +1,7 @@
 const socket = io.connect('http://localhost:5000');
 const nickname = 'Zelda' + Math.random();
 socket.emit('client-send-nickname', nickname);
+socket.emit('client-req-history');
 
 const messages = document.getElementById('messages');
 const inputMessage = document.getElementById('m');
@@ -95,6 +96,10 @@ socket.on('server-new-connection', function(){
 socket.on('server-chat-message', (msg, nickname) => {
   printMessage(nickname, msg);
 });
+
+socket.on('server-res-history', (daten, nickname, msg) => {
+  printMessage(nickname, msg);
+})
 
 socket.on('server-user-joined', function(nickname) {
   printInfo(nickname + ' has joined the conversation');

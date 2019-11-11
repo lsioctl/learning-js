@@ -3,28 +3,47 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
-const dbfile = './data.txt';
-const msgStream = fs.createWriteStream(dbfile, {'flags': 'a'});
+const readline = require('readline');
+const dbFile = './data.txt';
+const msgStream = fs.createWriteStream(dbFile, {'flags': 'a'});
 const connectedUsers = new Map();
 
+
+/**
+ * Save Messages to the DB
+ * For now we just use a JSON file
+ * 
+ */
+function messagesToDB(nickname, msg) {
+  const daten = Date.now();
+  // we use object litterals from ES6
+  let data = {
+    daten,
+    nickname,
+    msg
+  }
+  // the JSON stuff seems to do a lot of escaping, avoiding 
+  // \n or JSON in text messages
+  let jsonData = JSON.stringify(data);
+  msgStream.write(jsonData + '\n');
+}
+
+function getDBLineReader() {
+  // TODO: impact of require 'global' or require here
+  //const lineReader = require('readline').createInterface({
+    const lineReader = readline.createInterface({
+    // input: require('fs').createReadStream(dbFile)
+      input: fs.createReadStream(dbFile)
+  });
+  return lineReader;
+}
+
 io.on('connection', function(socket){
-  console.log(io.connected);
   socket.broadcast.emit('server-new-connection');
   socket.on('client-chat-message', function (msg) {
-    let daten = Date.now();
     let nickname = socket.nickname;
-    console.log(socket.nickname + msg)
     socket.broadcast.emit('server-chat-message', msg, nickname);
-    // we use object litterals from ES6
-    let data = {
-      daten,
-      nickname,
-      msg
-    }
-    // the JSON stuff seems to do a lot of escaping, avoiding 
-    // \n or JSON in text messages
-    let jsonData = JSON.stringify(data);
-    msgStream.write(jsonData + '\n');
+    messagesToDB(nickname, msg);
   });
   socket.on('client-send-nickname', function(nickname) {
     socket.nickname = nickname;
@@ -36,6 +55,13 @@ io.on('connection', function(socket){
      * see: https://stackoverflow.com/questions/40766650/how-to-emit-a-map-object
      */
     socket.emit('server-connected-users', Array.from(connectedUsers));
+  });
+  socket.on('client-req-history', function() {
+    getDBLineReader().on('line', function (line) {
+      // TODO improve this serialization stuff
+      data = JSON.parse(line);
+      socket.emit('server-res-history', data.daten, data.nickname, data.msg);
+    });
   });
   socket.on('client-user-typing', function() {
     socket.broadcast.emit('server-user-typing', socket.nickname);
