@@ -46,6 +46,11 @@ io.on('connection', function(socket){
     messagesToDB(nickname, msg);
   });
   socket.on('client-send-nickname', function(nickname) {
+    // Avoid identity spoofing
+    if (socket.nickname != "" || connectedUsers.has(nickname)) {
+      socket.emit('server-error', 'selected nickname unavailable');
+      return;
+    };
     socket.nickname = nickname;
     socket.broadcast.emit('server-user-joined', socket.nickname);
     connectedUsers.set(nickname, 'online');

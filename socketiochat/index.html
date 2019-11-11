@@ -7,6 +7,14 @@
   </head>
   <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
   <body>
+    <div class="nickname-modal">
+      <div class="nickname-modal-content">
+        <h1> Please select a nickname </h1>
+        <form id="select-nickname" action="">
+          <input id="nickname" autocomplete="off" /><button>Send</button>
+        </form>
+      </div>
+    </div>
     <div class="main">
       <h1> Messages </h1>
       <ul id="messages"></ul>

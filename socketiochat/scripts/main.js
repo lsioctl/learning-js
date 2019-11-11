@@ -34,6 +34,7 @@ function initUserStatus(connectedUsersArray) {
 }
 
 function updateUserStatus(nickname, status) {
+  // TODO: if not found, userElement will be null, nice or useless to handle ?
   const userElement = userStatus.querySelector(`[data-nickname="${nickname}"]`);
   userElement.innerText = `${nickname}: ${status}`;
 }
