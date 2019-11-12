@@ -47,10 +47,13 @@ io.on('connection', function(socket){
   });
   socket.on('client-send-nickname', function(nickname) {
     // Avoid identity spoofing
-    if (socket.nickname != "" || connectedUsers.has(nickname)) {
-      socket.emit('server-error', 'selected nickname unavailable');
+    // Note: been caught in the case of undefined, which is != "" 
+    // so this test does not work
+    // if (socket.nickname != "" || connectedUsers.has(nickname)) { 
+    if (socket.nickname || connectedUsers.has(nickname)) {
+      socket.emit('server-nickname-error', 'selected nickname unavailable');
       return;
-    };
+    }
     socket.nickname = nickname;
     socket.broadcast.emit('server-user-joined', socket.nickname);
     connectedUsers.set(nickname, 'online');
@@ -64,7 +67,7 @@ io.on('connection', function(socket){
   socket.on('client-req-history', function() {
     getDBLineReader().on('line', function (line) {
       // TODO improve this serialization stuff
-      data = JSON.parse(line);
+      const data = JSON.parse(line);
       socket.emit('server-res-history', data.daten, data.nickname, data.msg);
     });
   });
