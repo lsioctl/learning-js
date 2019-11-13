@@ -1,5 +1,6 @@
 const socket = io.connect('http://localhost:5000');
 const messages = document.getElementById('messages');
+const messageContainer = document.querySelector('.main__messages');
 const inputMessage = document.getElementById('m');
 const messageForm = document.getElementById('send');
 const userStatus = document.getElementById('user-status');
@@ -39,6 +40,8 @@ function printMessage(nickname, msg) {
   const messageLine = document.createElement('li');
   messageLine.innerText = `${nickname}: ${msg}`;
   messages.appendChild(messageLine);
+  // scroll to last message
+  messageContainer.scrollTo(0, messageContainer.clientHeight);
 }
 
 function printInfo(msg) {

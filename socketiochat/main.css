@@ -8,7 +8,6 @@ html {
     height: 100%;
     width: 100%;
 }
-
 body { 
     font: 13px Helvetica, Arial;
     display: flex;
@@ -70,15 +69,13 @@ body {
     width: 80%;
     height: 100%;
 }
-
 .main__messages {
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     height: 90%;
 }
-
-
 .aside {
     display: flex;
     flex-direction: column;
