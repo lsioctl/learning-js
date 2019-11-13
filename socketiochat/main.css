@@ -3,11 +3,18 @@
     padding: 0;
     box-sizing: border-box;
 }
+/* to be able to size with %, we need a reference */
+html {
+    height: 100%;
+    width: 100%;
+}
+
 body { 
     font: 13px Helvetica, Arial;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    height: 100%;
+    width: 100%;
 }
 #nickname-modal {
     display: none; /* Hidden by default */
@@ -22,7 +29,7 @@ body {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-#nickname-modal-content {
+#nickname-modal__content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -31,7 +38,6 @@ body {
 }
 #send { background: #000; 
     padding: 3px; 
-    position: fixed; 
     bottom: 0; 
     width: 100%; 
 }
@@ -58,8 +64,21 @@ body {
     background: #eee; 
 }
 .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 80%;
+    height: 100%;
 }
+
+.main__messages {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+}
+
+
 .aside {
     display: flex;
     flex-direction: column;

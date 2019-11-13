@@ -8,7 +8,7 @@
   <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
   <body>
     <div id="nickname-modal">
-      <div id="nickname-modal-content">
+      <div id="nickname-modal__content">
         <h1> Please select a nickname </h1>
         <form id="select-nickname" action="">
           <input id="nickname" autocomplete="off" /><button>Send</button>
@@ -16,18 +16,26 @@
       </div>
     </div>
     <div class="main">
-      <h1> Messages </h1>
-      <ul id="messages"></ul>
+      <div class="main__header">
+          <h1> Messages </h1>
+      </div>
+      <div class="main__messages">
+        <ul id="messages"></ul>
+      </div>
+      <div class="main__footer">
+        <form id="send" action="">
+            <input id="m" autocomplete="off" /><button>Send</button>
+        </form>
+      </div>
     </div>
     <div class="aside">
-      <h1> Connected users </h1>
+      <div class="aside__header">
+          <h1> Connected users </h1>
+      </div>
       <div id="user-status">
         <div>User yes: online</div>
       </div>
-    </div>
-    <form id="send" action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    </div> 
   </body>
   <script src="/scripts/main.js"></script>
 </html>
