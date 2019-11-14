@@ -63,18 +63,46 @@ body {
     background: #eee; 
 }
 .main {
+    /* set a non static position, to be able to position the
+    background and play with z-index */
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 80%;
     height: 100%;
+    /* by default, all non static child will have z-index: auto and
+    inherit this z-index */
+    z-index: 0;
+}
+.main__background {
+    /* we get out of the flexbox system (in fact the flow) with this position absolute */
+    position: absolute;
+    /* as we are not a flexbox item, we need to specify width and height */
+    width: 100%;
+    height: 100%;
+    background-image: url('bg-whatsapp.png');
+    background-color:rgb(229, 221, 213);
+    opacity: .06;
+    /* if over default (.main, 0), will prevent .main_messages from scrolling
+    if same as default .main__header has this background (TODO: why ?) */
+    z-index: -1;
+}
+.main__header {
+    position: relative;
+    background-color: white;
+    min-height: 5%;
 }
 .main__messages {
+    position: relative;
     overflow-x: hidden;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     height: 90%;
+}
+.main__footer {
+    position: relative;
 }
 .aside {
     display: flex;
