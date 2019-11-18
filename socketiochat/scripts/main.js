@@ -1,6 +1,6 @@
 const socket = io.connect('http://localhost:5000');
-const messages = document.getElementById('messages');
-const messageContainer = document.querySelector('.main__messages');
+const messagesMain = document.querySelector('.main__messages');
+const messagesContainer = document.querySelector('.messages-container');
 const inputMessage = document.getElementById('m');
 const messageForm = document.getElementById('send');
 const userStatus = document.getElementById('user-status');
@@ -34,20 +34,32 @@ function handleNickameForm(e) {
   nickname = inputNickname.value;
   socket.emit('client-send-nickname', nickname);
   hideElement(nicknameModal);
+  // make the message active on the message input
+  inputMessage.focus();
 }
 
 function printMessage(nickname, msg) {
-  const messageLine = document.createElement('li');
-  messageLine.innerText = `${nickname}: ${msg}`;
-  messages.appendChild(messageLine);
+  // TODO: component ? To much layout logic here
+  const message = document.createElement('div');
+  message.classList.add('message');
+  const messageHeader = document.createElement('div');
+  messageHeader.classList.add('message__header');
+  messageHeader.innerText = nickname;
+  const messageContent = document.createElement('div');
+  messageContent.classList.add('message__content');
+  messageContent.innerText = msg;
+  message.appendChild(messageHeader);
+  message.appendChild(messageContent);
+  messagesContainer.appendChild(message);
   // scroll to last message
-  messageContainer.scrollTo(0, messageContainer.clientHeight);
+  messagesMain.scrollTo(0, messagesContainer.clientHeight);
 }
 
 function printInfo(msg) {
-  const infoLine = document.createElement('li');
+  // TODO: refactor with printmessage or ...
+  const infoLine = document.createElement('div');
   infoLine.innerText = `${msg}`;
-  messages.appendChild(infoLine);
+  messagesContainer.appendChild(infoLine);
 }
 
 function initUserStatus(connectedUsersArray) {

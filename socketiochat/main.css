@@ -35,33 +35,6 @@ body {
     border: 1px solid #888;
     width: 80%;
 }
-#send { background: #000; 
-    padding: 3px; 
-    bottom: 0; 
-    width: 100%; 
-}
-#send > input { 
-    border: 0; 
-    padding: 10px; 
-    width: 90%; 
-    margin-right: .5%; 
-}
-#send > button { 
-    width: 9%; 
-    background: rgb(130, 224, 255); 
-    border: none; 
-    padding: 10px; 
-}
-#messages {
-    list-style-type: none; 
-    margin: 0; padding: 0; 
-}
-#messages li {
-    padding: 5px 10px; 
-}
-#messages li:nth-child(odd) {
-    background: #eee; 
-}
 .main {
     /* set a non static position, to be able to position the
     background and play with z-index */
@@ -83,15 +56,19 @@ body {
     height: 100%;
     background-image: url('bg-whatsapp.png');
     background-color:rgb(229, 221, 213);
+    /* note: opacity has influence on the stacking context also */
     opacity: .06;
     /* if over default (.main, 0), will prevent .main_messages from scrolling
-    if same as default .main__header has this background (TODO: why ?) */
+    if same as default .main__header has this background 
+    explained here: https://www.w3.org/TR/css-color-3/#transparency
+     */
     z-index: -1;
 }
 .main__header {
     position: relative;
-    background-color: white;
     min-height: 5%;
+    background-color: #d8d8d8;
+    border-bottom: 1px solid rgba(0,0,0,.08);
 }
 .main__messages {
     position: relative;
@@ -101,8 +78,41 @@ body {
     flex-direction: column;
     height: 90%;
 }
+.messages-container {
+    position: relative;
+    flex-direction: column;
+}
+.message {
+    position: relative;
+    width: 20%;
+    background-color:
+    #fff;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    padding: 20px;
+}
+.message__header {
+    position: relative;
+    color: #35cd96;
+}
 .main__footer {
     position: relative;
+    background-color: #d8d8d8;
+    min-height: 5%;
+    display: flex;
+    justify-content: center;
+}
+#send {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+}
+#m {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
 }
 .aside {
     display: flex;
