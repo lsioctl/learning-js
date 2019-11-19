@@ -42,6 +42,8 @@ function printMessage(nickname, msg) {
   // TODO: component ? To much layout logic here
   const message = document.createElement('div');
   message.classList.add('message');
+  const messageLine = document.createElement('div');
+  messageLine.classList.add('message-line');
   const messageHeader = document.createElement('div');
   messageHeader.classList.add('message__header');
   messageHeader.innerText = nickname;
@@ -50,7 +52,8 @@ function printMessage(nickname, msg) {
   messageContent.innerText = msg;
   message.appendChild(messageHeader);
   message.appendChild(messageContent);
-  messagesContainer.appendChild(message);
+  messageLine.appendChild(message);
+  messagesContainer.appendChild(messageLine);
   // scroll to last message
   messagesMain.scrollTo(0, messagesContainer.clientHeight);
 }

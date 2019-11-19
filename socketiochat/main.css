@@ -55,9 +55,9 @@ body {
     width: 100%;
     height: 100%;
     background-image: url('bg-whatsapp.png');
-    background-color:rgb(229, 221, 213);
+    background-color:rgb(236, 139, 92);
     /* note: opacity has influence on the stacking context also */
-    opacity: .06;
+    opacity: .1;
     /* if over default (.main, 0), will prevent .main_messages from scrolling
     if same as default .main__header has this background 
     explained here: https://www.w3.org/TR/css-color-3/#transparency
@@ -75,32 +75,47 @@ body {
     overflow-x: hidden;
     overflow-y: scroll;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     height: 90%;
 }
 .messages-container {
     position: relative;
+    width: 80%;
+    display: flex;
     flex-direction: column;
+}
+.message-line {
+    /* this is needed for having messsage with variable width 
+    as the flex item, the message, will be handled by flex along
+    the right axis (horizontal, row) */
+    position: relative;
+    display: flex;
 }
 .message {
     position: relative;
-    width: 20%;
-    background-color:
-    #fff;
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: 20px;
-    padding: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    max-width: 30%;
 }
 .message__header {
     position: relative;
     color: #35cd96;
 }
+.message__content {
+    margin-top: 5px;
+    position: relative;
+    word-break: break-all;
+}
 .main__footer {
     position: relative;
     background-color: #d8d8d8;
     min-height: 5%;
-    display: flex;
     justify-content: center;
 }
 #send {
