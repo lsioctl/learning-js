@@ -1,0 +1,15 @@
+{
+  "name": "breakout1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "breakout1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "browser-sync start --no-ghost-mode --server --files \"*.css, *.html, *.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browser-sync": "^2.26.7"
+  }
+}
