@@ -38,7 +38,6 @@ class Ball {
 
         this.x += this.dx * delta;
         this.y += this.dy * delta;
-        console.log(this.x +' '+ this.y);
   }
 }
 

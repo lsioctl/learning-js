@@ -1,4 +1,5 @@
-import Ball from './Ball.js'
+import Ball from './Ball.js';
+import Paddle from './Paddle.js';
 
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
@@ -9,10 +10,11 @@ let y = canvasHeight - 30;
 let last = 0;
 let delta = 0;
 const ball = new Ball(x, y, canvasWidth, canvasHeight, ctx);
+const paddle = new Paddle(canvasWidth, canvasHeight, ctx);
+console.log(paddle);
 
 
-function draw(tFrame) {
-
+function draw() {
     // Request another frame
     window.requestAnimationFrame(draw);
     // FPS throttling
@@ -25,8 +27,10 @@ function draw(tFrame) {
         delta = now - last;
         //console.log(delta);
         last = now;
-        ball.update(delta, canvasWidth, canvasHeight);
+        ball.update(delta);
         ball.draw();
+        paddle.update(delta);
+        paddle.draw();
     }
 };
 
