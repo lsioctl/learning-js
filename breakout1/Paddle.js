@@ -21,7 +21,7 @@ class Paddle {
 
     document.addEventListener('keydown', this.keydownHandler);
     document.addEventListener('keyup', this.keyupHandler);
-  }
+  };
 
   draw() {
     this.ctx.beginPath();
@@ -29,7 +29,7 @@ class Paddle {
     this.ctx.fillStyle = this.color;
     this.ctx.fill();
     this.ctx.closePath();
-  }
+  };
 
   keydownHandler(e) {
     // note: Left/Right would be needed for IE/Edge
@@ -37,13 +37,13 @@ class Paddle {
       this.leftPressed = true;
       // avoid stuff like scrolling
       e.preventDefault();
-    }
+    };
     if (e.key == 'ArrowRight') {
       this.rightPressed = true;
       // avoid stuff like scrolling
       e.preventDefault();
-    }
-  }
+    };
+  };
 
   keyupHandler(e) {
     // note: Left/Right would be needed for IE/Edge
@@ -51,27 +51,25 @@ class Paddle {
       this.leftPressed = false;
       // avoid stuff like scrolling
       e.preventDefault();
-    }
+    };
     if (e.key == 'ArrowRight') {
       this.rightPressed = false;
       // avoid stuff like scrolling
       e.preventDefault();
-    }
+    };
   }
 
   update(delta) {
     if (this.leftPressed && (this.x > 0)) {
       this.dx = -1;
-    }
+    };
     if (this.rightPressed && (this.x + this.width < this.canvasWidth)) {
       this.dx = 1;
-    }
+    };
     this.x += this.dx * this.speed * delta;
     // reset dx
     this.dx = 0;
-  }
-
-
-}
+  };
+};
 
 export default Paddle;

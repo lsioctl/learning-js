@@ -16,20 +16,18 @@ const ball = new Ball(x, y, canvasWidth, canvasHeight, ctx);
 const paddle = new Paddle(canvasWidth, canvasHeight, ctx);
 actors.push(ball);
 actors.push(paddle);
-console.log(actors);
 
 function update(delta) {
-  console.log('updating actors');
   actors.forEach((actor) => {
     actor.update(delta);
-  })
-}
+  });
+};
 
 function draw() {
   actors.forEach((actor) => {
     actor.draw();
-  })
-}
+  });
+};
 
 function preFrame() {
   // Ensure this function will be called before rendering the next frame

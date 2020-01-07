@@ -10,7 +10,7 @@ class Ball {
     this.ctx = ctx;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-  }
+  };
 
   draw() {
     // we clear all the canvas with clearRect
@@ -23,22 +23,26 @@ class Ball {
     this.ctx.fillStyle = this.color;
     this.ctx.fill();
     this.ctx.closePath();
-  }
+  };
 
   update(delta) {
-    if ((this.x + this.radius > this.canvasWidth && this.dx > 0)
-            || (this.x - this.radius < 0 && this.dx < 0)) {
-            this.dx = - this.dx;
-        };
+    if (
+      (this.x + this.radius > this.canvasWidth && this.dx > 0)
+      || (this.x - this.radius < 0 && this.dx < 0)
+      ) {
+        this.dx = - this.dx;
+      };
 
-        if ((this.y + this.radius > this.canvasHeight && this.dy > 0)
-            || (this.y - this.radius < 0 && this.dy < 0)) {
-            this.dy = - this.dy;
-        };
+      if (
+        (this.y + this.radius > this.canvasHeight && this.dy > 0)
+        || (this.y - this.radius < 0 && this.dy < 0)
+      ) {
+        this.dy = - this.dy;
+      };
 
-        this.x += this.dx * delta;
-        this.y += this.dy * delta;
-  }
-}
+      this.x += this.dx * delta;
+      this.y += this.dy * delta;
+  };
+};
 
 export default Ball;
