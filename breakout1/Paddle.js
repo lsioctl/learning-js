@@ -35,7 +35,6 @@ class Paddle {
     // note: Left/Right would be needed for IE/Edge
     if (e.key == 'ArrowLeft') {
       this.leftPressed = true;
-      console.log(this);
       // avoid stuff like scrolling
       e.preventDefault();
     }
@@ -61,10 +60,10 @@ class Paddle {
   }
 
   update(delta) {
-    if (this.leftPressed) {
+    if (this.leftPressed && (this.x > 0)) {
       this.dx = -1;
     }
-    if (this.rightPressed) {
+    if (this.rightPressed && (this.x + this.width < this.canvasWidth)) {
       this.dx = 1;
     }
     this.x += this.dx * this.speed * delta;
