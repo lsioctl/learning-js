@@ -57,7 +57,7 @@ class Paddle {
       // avoid stuff like scrolling
       e.preventDefault();
     };
-  }
+  };
 
   update(delta) {
     if (this.leftPressed && (this.x > 0)) {
