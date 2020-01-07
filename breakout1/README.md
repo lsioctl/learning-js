@@ -1,5 +1,7 @@
 * References
 
+Game Progamming in C++ book
+
 https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Paddle_and_keyboard_controls
 
 https://dev.to/washingtonsteven/playing-with-canvas-and-es6-classes
