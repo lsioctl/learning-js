@@ -1,7 +1,7 @@
 import Game from './Game.js';
 
+let level = 1;
+const buttonStart = document.getElementById('start');
 const game = new Game();
 
-console.log(game);
-
-game.loop();
+buttonStart.addEventListener('click', game.startLevel);

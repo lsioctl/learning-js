@@ -1,12 +1,9 @@
 class Ball {
   constructor(game) {
-    // just to check the state of the game object should not be yet fully
-    // initialized
-    console.dir(game);
     this.game = game;
     this.color = "#0095DD";
     this.radius = 20;
-    this.speed = 0.5;
+    this.velocity = 0.5;
     this.dx = 1;
     this.dy = - this.dx;
     this.ctx = game.ctx;
@@ -14,6 +11,7 @@ class Ball {
     this.canvasHeight = game.canvasHeight;
     this.x = this.canvasWidth / 2;
     this.y = this.canvasHeight - 30;
+    console.log(this.x + ' ' + this.y);
   };
 
   draw() {
@@ -45,8 +43,13 @@ class Ball {
       this.game.isOver = true;
     }
 
-    this.x += this.dx * delta;
-    this.y += this.dy * delta;
+    this.x += this.dx * this.velocity * delta;
+    this.y += this.dy * this.velocity * delta;
+
+    // got spawn problem
+    console.log(this.x + ' ' + this.y);
+
+
   };
 };
 

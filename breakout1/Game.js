@@ -9,24 +9,41 @@ class Game {
     this.canvasHeight = this.canvas.offsetHeight;
     this.delta = 0;
     this.actors = [];
-    console.log(this);
-    // it seems a bit dangerous to construct other objects while
-    // this one is not finished ? Like race conditions could occur ?
+    this.score = 0;
+    this.level = 1;
+    this.isOver = false; 
+    this.last = 0;
+    this.isRunning = false;
+    // classical this manual binding with ES6 Classes
+    this.loadLevel = this.loadLevel.bind(this);
+    this.startLevel = this.startLevel.bind(this);
+    this.update = this.update.bind(this);
+    this.testCollisions = this.testCollisions.bind(this);
+    this.draw = this.draw.bind(this);
+    this.loop = this.loop.bind(this);
+  };
+
+  loadLevel() {
+    // reset the actor array
+    this.actors = [];
+    // trust the garbage collector for all actors not in use
     this.ball = new Ball(this);
     this.paddle = new Paddle(this);
     // take care of the order, as I want paddle to be updated
     // before ball for better collision detection (not sure of that)
     // no: we should update all object and then detect collisions
     this.actors.push(this.paddle);
-    this.actors.push(this.ball); 
-    this.isOver = false; 
-    this.last = 0;
-    // classical this manual binding with ES6 Classes
-    this.update = this.update.bind(this);
-    this.testCollisions = this.testCollisions.bind(this);
-    this.draw = this.draw.bind(this);
-    this.loop = this.loop.bind(this);
-    console.log(this);
+    this.actors.push(this.ball);
+    this.draw();
+  }
+
+  // also used to restart level
+  startLevel() {
+    this.score = 0;
+    this.isRunning = true;
+    this.isOver = false;
+    this.loadLevel();
+    this.loop();
   };
 
   update(delta) {
@@ -55,7 +72,7 @@ class Game {
   }
 
   loop() {
-    if (this.isOver) {
+    if (this.isOver || !this.isRunning) {
       this.promptrestart();
       return 1;
     };
