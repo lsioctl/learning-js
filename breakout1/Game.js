@@ -7,13 +7,19 @@ class Game {
     this.ctx = this.canvas.getContext('2d');
     this.canvasWidth = this.canvas.offsetWidth;
     this.canvasHeight = this.canvas.offsetHeight;
-    this.delta = 0;
     this.actors = [];
     this.score = 0;
     this.level = 1;
     this.isOver = false; 
     this.last = 0;
     this.isRunning = false;
+    // rAF will may pickup a different refresh rate
+    // but we will use 60Hz for our fixed timestep
+    this.timeStep = 1000/60; 
+    this.fpsDisplay = document.getElementById('fps');
+    this.fps = 60;
+    this.framesThisSecond = 0;
+    this.lastFpsUpdate = 0;
     // classical this manual binding with ES6 Classes
     this.loadLevel = this.loadLevel.bind(this);
     this.startLevel = this.startLevel.bind(this);
@@ -43,6 +49,7 @@ class Game {
     this.isRunning = true;
     this.isOver = false;
     this.loadLevel();
+    this.last = window.performance.now();
     this.loop();
   };
 
@@ -71,6 +78,38 @@ class Game {
     console.log('game over');
   }
 
+  loopWithFixedStep() {
+    if (this.isOver || !this.isRunning) {
+      this.promptrestart();
+      return 1;
+    };
+    // use requestAnimationFrame instead of timeout for the non blocking game loop
+    // in the main JS thread
+    // loop will be exectuted in the main JS thread before the next frame
+    window.requestAnimationFrame(this.loop);
+    // FPS throttling
+    // Note: it seems to not be needed as requestAnimationFrame syncs with the monitor
+    // refresh rate
+    const now = window.performance.now();
+    let delta = 0;
+    
+    // Track the accumulated time that hasn't been simulated yet
+    delta += now - this.last; // note += here
+    this.last = now;
+
+    // Simulate the total elapsed time in fixed-size chunks
+    while (delta >= this.timeStep) {
+      //console.log('yes');
+      this.update(this.timeStep);
+      delta -= this.timeStep;
+      // note: input is handled in another loop (Event Loop)
+      this.update(this.timeStep);
+      this.testCollisions();
+    };
+    //console.log('no');
+    this.draw();
+  };
+
   loop() {
     if (this.isOver || !this.isRunning) {
       this.promptrestart();
@@ -84,18 +123,23 @@ class Game {
     // Note: it seems to not be needed as requestAnimationFrame syncs with the monitor
     // refresh rate
     const now = window.performance.now();
-    if ((now - this.last) >= 16) {
-      //console.log(now);
-      //console.log(tFrame);
-      const delta = now - this.last;
-      //console.log(delta);
-      this.last = now;
+    let delta = 0;
 
-      // note: input is handled in another loop (Event Loop)
-      this.update(delta);
-      this.testCollisions();
-      this.draw(delta);
+    // no need to throttle FPS, it is handled by the browser
+    delta = now - this.last; // note += here
+    this.last = now;
+
+    if (now > this.lastFpsUpdate + 1000) { // update every second
+      this.fps = 0.25 * this.framesThisSecond + (1 - 0.25) * this.fps; // compute the new FPS
+      this.lastFpsUpdate = now;
+      this.framesThisSecond = 0;
     };
+    this.framesThisSecond++;
+
+    this.update(delta);
+    this.testCollisions();
+    this.fpsDisplay.textContent = Math.round(this.fps) + ' FPS'; // display the FPS
+    this.draw();
   };
 };
 

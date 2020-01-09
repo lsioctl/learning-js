@@ -2,8 +2,8 @@ class Ball {
   constructor(game) {
     this.game = game;
     this.color = "#0095DD";
-    this.radius = 20;
-    this.velocity = 0.5;
+    this.radius = 10;
+    this.velocity = 0.2;
     this.dx = 1;
     this.dy = - this.dx;
     this.ctx = game.ctx;
@@ -46,9 +46,7 @@ class Ball {
     this.x += this.dx * this.velocity * delta;
     this.y += this.dy * this.velocity * delta;
 
-    // got spawn problem
-    console.log(this.x + ' ' + this.y);
-
+    //console.log(this.x + ' ' + this.y);
 
   };
 };
