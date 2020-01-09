@@ -1,12 +1,13 @@
 class Paddle {
-  constructor(canvasWidth, canvasHeight, ctx) {
+  constructor(game) {
+    this.game = game;
     this.color = "#0095AA";
     this.radius = 20;
     this.speed = 0.5;
     this.dx = 0;
-    this.ctx = ctx;
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
+    this.ctx = game.ctx;
+    this.canvasWidth = game.canvasWidth;
+    this.canvasHeight = game.canvasHeight;
     this.width = 75;
     this.height = 10;
     this.x = (this.canvasWidth - this.width)/2;
@@ -70,6 +71,15 @@ class Paddle {
     // reset dx
     this.dx = 0;
   };
+  
+  testCollisionWithBall(ball) {
+    if (
+    (ball.x > this.x && ball.x < this.x + this.width)
+    && (ball.y >= this.canvasHeight - this.height) 
+    ) {
+      ball.collideWithPaddle();
+    }
+  }
 };
 
 export default Paddle;

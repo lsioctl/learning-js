@@ -8,6 +8,8 @@ https://dev.to/washingtonsteven/playing-with-canvas-and-es6-classes
 
 https://codeincomplete.com/posts/javascript-game-foundations-player-input/
 
+https://spicyyoghurt.com/tutorials/html5-javascript-game-development/collision-detection-physics
+
 
 * TODO
 
@@ -31,3 +33,10 @@ Paddle collision does not happen a the same this.x, related to update tick and r
 Input class or component
 
 Collider class or component
+
+Class construction:
+
+I feel that creating other instances in the constructor is bad, moreover when creating
+objects who references the object under construction.
+JS seems OK with it, I see no race conditions in the logs, but ... console.log may not
+be so trustable on this.
