@@ -21,6 +21,11 @@ class Game {
     this.framesThisSecond = 0;
     this.lastFpsUpdate = 0;
     // classical this manual binding with ES6 Classes
+    // It ensure that when for example game.loadLevel is
+    // passed as a callback, this is not lost
+    // https://javascript.info/bind#losing-this
+    // Another way of doing it would be with "arrow methods"
+    // https://javascript.info/class#making-bound-methods-with-class-fields
     this.loadLevel = this.loadLevel.bind(this);
     this.startLevel = this.startLevel.bind(this);
     this.update = this.update.bind(this);
